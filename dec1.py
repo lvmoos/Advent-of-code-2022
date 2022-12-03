@@ -41,10 +41,3 @@ timer_function(func=dec1_part_1, data=input_txt, n_run=10)
 top3 = elf_calories[-3:]
 print(f"Part 2: Maximum calories carried by top 3 elves({top3}): {np.sum(top3)}")
 timer_function(func=dec1_part_1, data=input_txt, n_run=10)
-# %%
-
-
-elf_calories = sorted([np.sum(list(map(int, elf.split('\n')))) for elf in data.split('\n\n')])
-print(f"Part 1: Maximum calories carried by one elf: {elf_calories[-1]}")
-top3 = elf_calories[-3:]
-print(f"Part 2: Maximum calories carried by top 3 elves({top3}): {np.sum(top3)}")
