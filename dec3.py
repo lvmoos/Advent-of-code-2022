@@ -37,7 +37,7 @@ def dec3_part2(data):
     # Find duplicates
     backpacks = [set(p) for p in data]
     n=3
-    groups = [backpacks[i:i+n] for i in range(0,len(backpacks),n)]
+    groups = [backpacks[i:i+n] for i in range(0, len(backpacks), n)]
     group_ids = [''.join(b[0] & b[1] & b[2]) for b in groups]
     # Map letters to scores
     letters = 'abcdefghijklmnopqrstuvwxyz'
@@ -50,4 +50,3 @@ def dec3_part2(data):
 
 print(f"Part 2:", dec3_part2(data=input3))
 timer_function(func=dec3_part2, data=input3, n_run=10)
-# %%
