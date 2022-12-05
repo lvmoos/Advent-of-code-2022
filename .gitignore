@@ -2,3 +2,4 @@ config/session.txt
 2022.code-workspace
 config/session.txt
 2022.code-workspace
+*.pyc
