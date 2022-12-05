@@ -4,15 +4,7 @@ import numpy as np
 from utilities.helper_functions import scrape_data, timer_function
 
 #%% Fetch data
-#     [D]    
-# [N] [C]    
-# [Z] [M] [P]
-#  1   2   3 
-
-# move 1 from 2 to 1
-# move 3 from 1 to 3
-# move 2 from 2 to 1
-# move 1 from 1 to 2
+# Ugly parsing
 position_ini_test=['ZN', 'MCD', 'P']
 input5_test=['move 1 from 2 to 1', 'move 3 from 1 to 3', 'move 2 from 2 to 1','move 1 from 1 to 2']
 
@@ -26,7 +18,7 @@ print(f"Fetched {len(input5_lst)} lines of data input.")
 
 # %% Dec 3 part 1
 def dec5_part1(data, position_ini):
-    moves = [list(map(int,move.replace('move ','').replace(' from ', ',').replace(' to ', ',').split(','))) for move in data]
+    moves = [list(map(int, move.split(' ')[1::2])) for move in data]
     position = position_ini.copy()
 
     for n_crates, stack_start, stack_end in moves:
@@ -47,7 +39,7 @@ print(f"Part 1:", dec5_part1(data=input5_lst, position_ini=position_ini))
 
 # %% Part 2
 def dec5_part2(data, position_ini):
-    moves = [list(map(int,move.replace('move ','').replace(' from ', ',').replace(' to ', ',').split(','))) for move in data]
+    moves = [list(map(int, move.split(' ')[1::2])) for move in data]
     position = position_ini.copy()
 
     for n_crates, stack_start, stack_end in moves:
