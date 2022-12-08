@@ -67,9 +67,10 @@ print(answer)
 # %%
 max_capacity = 70000000
 req_capacity = 30000000
-
 used_capacity = dir_sizes['/']
 missing_capacity = req_capacity - (max_capacity - used_capacity)
+
 size_sorted = np.array(sorted([d for d in dir_sizes.values()])) 
 min_size = size_sorted[size_sorted >= missing_capacity][0]
 
+print(min_size)
