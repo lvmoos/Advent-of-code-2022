@@ -161,8 +161,8 @@ print(f"Fetched {len(input_str)} lines of data input.")
 data_input = input_str
 adder_cycles = data_input.replace('noop', '0').replace('\naddx ', '\n0\n').replace('addx ', '0\n').split('\n')
 # values at the start of each cycle: 
-#   one is added to all cumulatative values to account for starting value of 1
-#   1 is inserted at the start to offset cycles values to match start of cycle instead of end
+#   1 is added to all cumulatative values to account for starting value of 1
+#   1 is inserted at the start if list to offset cycles values to match start of cycle instead of end
 start_cycle_values = np.insert(np.add(np.cumsum([int(i) for i in adder_cycles]), 1), 0, 1)
 
 check_cycles = [20, 60, 100, 140, 180, 220]
