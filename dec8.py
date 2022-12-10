@@ -17,7 +17,7 @@ print(f"Test input:\n{input_test}")
 print(f"Fetched {len(input_txt)} lines of data input.")
 
 # %%
-data = np.array([list(map(int, i)) for i in input_test.split('\n')])
+data = np.array([list(map(int, i)) for i in input_txt.split('\n')])
 
 tree_diagram = np.zeros(data.shape) # tracks position of visible trees with a '1'
 # loop for rotating the array 3 times 90 degrees
@@ -25,12 +25,10 @@ for n_rot_90 in range(4):
     data_rotated = np.rot90(data, k=n_rot_90)
     tree_diagram = np.rot90(tree_diagram, k=1*(n_rot_90 > 0))
 
-    # Entire top row is set to vivible as it is an edge
+    # top row is set to vivible as it is an edge
     tree_diagram[0] = 1
-
     # Loop through all rows,t hat are not the top and bottom ones (as they are edges)
     for row_idx, tree_row in enumerate(data_rotated[1:-1], 1):
-        
         # search through tree line up to the tallest tree
         idx_h_max = np.where(tree_row == np.max(tree_row))[0][0]
         for col_idx in range(1, idx_h_max + 1):
