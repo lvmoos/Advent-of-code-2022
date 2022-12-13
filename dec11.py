@@ -49,9 +49,9 @@ def parse_monkey_data(data):
         elif 'Starting items' in row:
             monkeys_dct[monkey_num]['items'] = [int(n) for n in row.split(': ')[-1].split(', ')]
         elif 'Operation' in row:
-            _, operator, operator_value = row.split('= ')[-1].split(' ')
+            operator, operator_value = row.replace('* old', '** 2').split('= old ')[-1].split(' ')
             monkeys_dct[monkey_num]['operator'] = operator
-            monkeys_dct[monkey_num]['operator_value'] = operator_value
+            monkeys_dct[monkey_num]['operator_value'] = int(operator_value)
         elif 'Test' in row:
             monkeys_dct[monkey_num]['test_divisor'] = int(row.split('by ')[-1])
         elif 'If true' in row:
@@ -63,13 +63,14 @@ def parse_monkey_data(data):
 
 # %%
 class MonkeyClass:
-    def __init__(self, items, operator, operator_value, test_divisor, true_action, false_action):
+    def __init__(self, items, operator, operator_value, test_divisor, true_action, false_action, monkey_tests):
         self.items = items
         self.operator = operator
         self.operator_value = operator_value
         self.test_divisor = test_divisor
         self.true_action = true_action
         self.false_action = false_action
+        self.monkey_tests = monkey_tests
 
         self.inspection_count = 0
 
@@ -77,12 +78,7 @@ class MonkeyClass:
         self.items.append(item)
 
     def inspect_item(self, item):
-        if self.operator_value == 'old':
-            operator_value = item
-        else:
-            operator_value = self.operator_value
-
-        item_value_new = eval(f"{item}{self.operator}{operator_value}")
+        item_value_new = eval(f"{item}{self.operator}{self.operator_value}")
         return item_value_new
     
     def test_item(self, item):
@@ -94,8 +90,9 @@ class MonkeyClass:
         return pass_to_monkey
 
     def reduce_worry(self, item):
-        new_worry = item // 3 
-        return new_worry
+        # reduced_worry = item // 3
+        reduced_worry = item % self.monkey_tests
+        return reduced_worry
 
     def item_turn(self, item):
         new_inspect_value = self.inspect_item(item = item)
@@ -120,9 +117,9 @@ class MonkeyClass:
         return item_actions
 
 
-# %% instantiate list of monkey class objects
-
-monkeys_dct = parse_monkey_data(data=input_test)
+# % instantiate list of monkey class objects
+monkeys_dct = parse_monkey_data(data=input_str)
+monkey_tests = np.product([items['test_divisor'] for _, items in monkeys_dct.items()])
 monkeys_ini = []
 for monkey in monkeys_dct.values():
     m = MonkeyClass(
@@ -131,15 +128,16 @@ for monkey in monkeys_dct.values():
         operator_value=monkey['operator_value'],
         test_divisor=monkey['test_divisor'],
         true_action=monkey['true_action'],
-        false_action=monkey['false_action']
+        false_action=monkey['false_action'],
+        monkey_tests=monkey_tests
         )
     monkeys_ini.append(m)
 
 
 # %% Part 1
-import copy
-n_rounds = 20
-monkeys = copy.deepcopy(monkeys_ini)
+n_rounds = 10000
+
+monkeys = monkeys_ini
 for round in range(1, n_rounds + 1):
     for monkey_num, monkey in enumerate(monkeys):
         actions = monkey.execute_turn()
